@@ -14,6 +14,7 @@ export default {
         this.title = event.target.title.value;
       } else {
         this.editMode = true;
+        this.$refs.input.focus();
       }
     },
   },
@@ -30,7 +31,7 @@ export default {
     />
   </div>
   <form v-else class="title-flex" @submit="enableTitleUpdate">
-    <input name="title" :value="title" />
+    <input ref="title" name="title" :value="title" />
     <button class="submit-button icon-button" type="submit">
       <FontAwesomeIcon icon="check" />
     </button>
