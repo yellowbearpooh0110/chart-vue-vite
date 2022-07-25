@@ -1,4 +1,4 @@
-:root {
+/* :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
@@ -87,4 +87,20 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+} */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.icon-button {
+  margin: 5px 5px 0 5px;
+  color: #dedede;
+  cursor: pointer;
+  transition: all ease 0.3s;
+}
+
+.icon-button:hover {
+  color: #000000;
 }
