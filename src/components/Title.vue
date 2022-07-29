@@ -22,50 +22,29 @@ export default {
 </script>
 
 <template>
-  <div v-if="!editMode" class="title-flex">
-    <h1>{{ title || 'Title' }}</h1>
+  <div v-if="!editMode" class="group flex items-center">
+    <h1 class="text-[32px] font-[Roboto] font-semibold">
+      {{ title || 'Title' }}
+    </h1>
     <FontAwesomeIcon
-      class="icon-button"
+      class="opacity-0 group-hover:opacity-100 icon-button"
       icon="pencil"
       @click="enableTitleUpdate"
     />
   </div>
-  <form v-else class="title-flex" @submit="enableTitleUpdate">
-    <input ref="title" name="title" :value="title" />
-    <button class="submit-button icon-button" type="submit">
+  <form v-else class="flex items-center" @submit="enableTitleUpdate">
+    <input
+      ref="title"
+      class="outline-none border-b border-b-black text-[32px] font-['Roboto'] font-semibold"
+      name="title"
+      :value="title"
+    />
+    <button
+      class="bg-transparent border-none w-fit text-[16px] icon-button"
+      type="submit"
+    >
       <FontAwesomeIcon icon="check" />
     </button>
   </form>
 </template>
-
-<style scoped>
-.title-flex {
-  display: flex;
-  align-items: center;
-}
-
-.title-flex > input {
-  outline: none;
-  border: none;
-  border-bottom: 1px solid black;
-  font-size: 32px;
-  font-family: 'Times New Roman', Times, serif;
-  font-weight: 600;
-}
-
-.title-flex > h1 + .icon-button {
-  opacity: 0;
-}
-
-.title-flex > h1:hover + .icon-button,
-.title-flex > h1 + .icon-button:hover {
-  opacity: 1;
-}
-
-.submit-button {
-  background: transparent;
-  border: none;
-  width: fit-content;
-  font-size: 16px;
-}
-</style>
+<style scoped></style>

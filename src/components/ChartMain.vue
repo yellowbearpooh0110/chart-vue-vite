@@ -57,31 +57,31 @@ export default {
           .on('mouseenter', function () {
             document
               .getElementById(`circle-plus-${index}`)
-              .classList.add('show');
+              .classList.add('opacity-100');
             document
               .getElementById(`circle-plus-${index + 1}`)
-              .classList.add('show');
+              .classList.add('opacity-100');
           })
           .on('mouseleave', function () {
             document
               .getElementById(`circle-plus-${index}`)
-              .classList.remove('show');
+              .classList.remove('opacity-100');
             document
               .getElementById(`circle-plus-${index + 1}`)
-              .classList.remove('show');
+              .classList.remove('opacity-100');
           })
           .html(
-            `<div style="height:100%;width:100%;padding:5px;">
-          <div class="y-label-staic">
-            <div style="text-align:center;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;">${xLabel}</div>
-            <span>
-              <i class="fa-solid fa-pen icon-button" onclick="enableXLabelUpdate(this)"></i>
-              <i class="fa-solid fa-trash-can icon-button" onclick="removeColumn(${index})"></i>
+            `<div class="w-full h-full p-[5px]">
+          <div class="text-center">
+            <div class="peer text-center text-ellipsis overflow-hidden whitespace-nowrap">${xLabel}</div>
+            <span class="transition-opacity opacity-0 peer-hover:opacity-100 hover:opacity-100">
+              <i class="fa-solid fa-pen m-[5px] mb-0 text-[#dedede] cursor-pointer transition-all hover:text-black" onclick="enableXLabelUpdate(this)"></i>
+              <i class="fa-solid fa-trash-can m-[5px] mb-0 text-[#dedede] cursor-pointer transition-all hover:text-black" onclick="removeColumn(${index})"></i>
             </span>
           </div>
-          <div style="text-align:center;display:none;">
-            <input style="text-align:center;width:100%;outline:none;border:none;border-bottom:1px solid black;display:block;" value="${xLabel}" />
-            <i class="fa-solid fa-check icon-button" onclick="updateXLabel(this, ${index})"></i>
+          <div class="text-center hidden">
+            <input class="text-center w-full outline-none border-b-black border-b block" value="${xLabel}" />
+            <i class="fa-solid fa-check m-[5px] mb-0 text-[#dedede] cursor-pointer transition-all hover:text-black" onclick="updateXLabel(this, ${index})"></i>
           </div>
         </div>`
           );
@@ -104,7 +104,7 @@ export default {
         .attr('height', _height + 30)
         .html(
           `<div style="height:100%;width:100%;padding:5px;box-sizing:border-box">
-        <div style="height:100%;width:100%;border-radius:4px;box-shadow:0px 2px 1px -1px rgb(0 0 0 / 20%),0px 1px 1px 0px rgb(0 0 0 / 14%),0px 1px 3px 0px rgb(0 0 0 / 12%);">
+        <div class="w-full h-full shadow-custom rounded-[15px]">
         </div>
       </div>`
         );
@@ -122,7 +122,7 @@ export default {
           .attr('y', deltaHeight * (dataRange + 1 - index))
           .attr('text-anchor', 'end')
           .attr('alignment-baseline', 'central')
-          .attr('stroke', 'black')
+          .attr('stroke', '#9E9E9E')
           .html(yLabel);
       });
       _coordinate
@@ -147,28 +147,28 @@ export default {
         _coordinate
           .append('foreignObject')
           .attr('id', `circle-plus-${index}`)
-          .attr('class', 'circle-plus')
+          .attr('class', 'opacity-0 hover:opacity-100')
           .attr('x', deltaWidth * (index + 0.5) - 20)
           .attr('y', _height + 15)
           .attr('width', 40)
           .attr('height', 30)
           .html(
             `<div style="height:100%;width:100%;padding:5px;text-align:center">
-          <i onclick="addColumn(${index})" class="fa-solid fa-circle-plus column-add-icon"></i>
+          <i onclick="addColumn(${index})" class="fa-solid fa-circle-plus text-[#55d762] cursor-pointer transition-all hover:translate-y-[2px]"></i>
         </div>`
           );
       });
       _coordinate
         .append('foreignObject')
         .attr('id', `circle-plus-${_xLabels.length}`)
-        .attr('class', 'circle-plus')
+        .attr('class', 'opacity-0 hover:opacity-100')
         .attr('x', deltaWidth * (_xLabels.length + 0.5) - 20)
         .attr('y', _height + 15)
         .attr('width', 40)
         .attr('height', 30)
         .html(
           `<div style="height:100%;width:100%;padding:5px;text-align:center">
-        <i onclick="addColumn(${_xLabels.length})" class="fa-solid fa-circle-plus column-add-icon"></i>
+        <i onclick="addColumn(${_xLabels.length})" class="fa-solid fa-circle-plus text-[#55d762] cursor-pointer transition-all hover:translate-y-[2px]"></i>
       </div>`
         );
       this.drawXLabels(_labels, _xLabels, _height);
@@ -195,16 +195,16 @@ export default {
           _graph
             .append('foreignObject')
             .attr('class', `graph-${dataIndex}`)
-            .attr('x', deltaWidth * (index + 1) - 25)
-            .attr('y', deltaHeight * (dataRange + 1 - value) - 25)
-            .attr('width', 50)
-            .attr('height', 50)
+            .attr('x', deltaWidth * (index + 1) - 30)
+            .attr('y', deltaHeight * (dataRange + 1 - value) - 30)
+            .attr('width', 60)
+            .attr('height', 60)
             .html(
-              `<div class="node-wrapper">
-            <div class="node">
-              <i class="fa-solid ${data.type}" style="color:${data.color}"></i>
-            </div>
-          </div>`
+              `<div class="w-full h-full p-[10px]">
+                <div class="w-full h-full bg-white rounded-[50%] shadow-custom cursor-grab flex items-center justify-center">
+                  <i class="fa-solid ${data.type}" style="color:${data.color}"></i>
+                </div>
+              </div>`
             )
             .style('visibility', data.visible ? 'visible' : 'hidden')
             .call(
@@ -291,23 +291,44 @@ export default {
       const content = d3.select('#chart_legend > .content');
       content.html(null);
       datum.forEach((data, dataIndex) => {
-        const row = content.append('div').attr('class', 'flex-row');
-        const icon = row.append('div').attr('class', 'icon');
-        const action = row.append('div').attr('class', 'action');
+        const row = content
+          .append('div')
+          .attr(
+            'class',
+            'group relative flex items-center flex-nowrap p-[5px] rounded-[5px] cursor-pointer transition-all select-none h-1/2 hover:bg-gray-200 h-[45px]'
+          );
+        const icon = row
+          .append('div')
+          .attr(
+            'class',
+            'flex items-center justify-center basis-[40px] min-w-[40px] mr-[10px] text-center relative'
+          );
+        const action = row
+          .append('div')
+          .attr(
+            'class',
+            'absolute text-[#dedede] left-[calc(100%+10px)] w-fit top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100'
+          );
         action
           .append('i')
-          .attr('class', 'fa-solid fa-pencil icon-button')
+          .attr(
+            'class',
+            'fa-solid fa-pencil m-[5px] mb-0 text-[#dedede] cursor-pointer transition-all hover:text-black'
+          )
           .attr('onclick', `updateData(${dataIndex})`);
 
         action
           .append('i')
-          .attr('class', 'fa-solid fa-list-ul icon-button')
+          .attr(
+            'class',
+            'fa-solid fa-list-ul m-[5px] mb-0 text-[#dedede] cursor-pointer transition-all hover:text-black'
+          )
           .style('cursor', 'grab')
           .call(
             d3
               .drag()
               .on('start', function () {
-                this.parentElement.classList.add('dragging');
+                this.parentElement.classList.add('opacity-100');
               })
               .on('drag', function () {
                 const children =
@@ -337,28 +358,36 @@ export default {
                 }
               })
               .on('end', function () {
-                this.parentElement.classList.remove('dragging');
+                this.parentElement.classList.remove('opacity-100');
               })
           );
         action
           .append('i')
           .attr(
             'class',
-            `fa-solid ${data.visible ? 'fa-eye' : 'fa-eye-slash'} icon-button`
+            `fa-solid ${
+              data.visible ? 'fa-eye' : 'fa-eye-slash'
+            } m-[5px] mb-0 text-[#dedede] cursor-pointer transition-all hover:text-black`
           )
           .attr('onclick', `changeVisiblity(this, ${dataIndex})`);
         action
           .append('i')
-          .attr('class', 'fa-solid fa-trash-can icon-button')
+          .attr(
+            'class',
+            'fa-solid fa-trash-can m-[5px] mb-0 text-[#dedede] cursor-pointer transition-all hover:text-black'
+          )
           .attr('onclick', `removeData(${dataIndex})`);
         icon
           .append('div')
-          .attr('class', 'line')
+          .attr(
+            'class',
+            'absolute top-1/2 left-0 border-t-2 w-full -translate-y-1/2'
+          )
           .style('border-top-color', data.lineColor)
           .style('border-top-style', data.dotted ? 'dotted' : 'solid');
         icon
           .append('i')
-          .attr('class', `fa-solid ${data.type}`)
+          .attr('class', `fa-solid ${data.type} relative`)
           .style('color', data.color);
         row.append('div').html(data.label);
       });
@@ -426,19 +455,25 @@ export default {
     window.changeVisiblity = function (elem, index) {
       if (datum[index].visible) {
         datum[index].visible = false;
-        d3.select(elem).attr('class', 'fa-solid fa-eye-slash icon-button');
+        d3.select(elem).attr(
+          'class',
+          'fa-solid fa-eye-slash m-[5px] mb-0 text-[#dedede] cursor-pointer transition-all hover:text-black'
+        );
         graph.selectAll(`.graph-${index}`).style('visibility', 'hidden');
       } else {
         datum[index].visible = true;
-        d3.select(elem).attr('class', 'fa-solid fa-eye icon-button');
+        d3.select(elem).attr(
+          'class',
+          'fa-solid fa-eye m-[5px] mb-0 text-[#dedede] cursor-pointer transition-all hover:text-black'
+        );
         graph.selectAll(`.graph-${index}`).style('visibility', 'visible');
       }
     };
 
     window.removeData = function (index) {
       datum.splice(index, 1);
-      drawTotal(dataLength, datum, xLabels);
-      drawLegend();
+      thisComponent.drawTotal(dataLength, datum, xLabels);
+      thisComponent.drawLegend();
     };
 
     window.addData = async function (index) {
@@ -544,166 +579,24 @@ export default {
 };
 </script>
 <template>
-  <div class="main-content">
-    <div id="chart_area"></div>
-    <div id="chart_legend">
-      <div class="legend-flex">
+  <div class="flex items-start">
+    <div
+      id="chart_area"
+      class="max-w-[1000px] whitespace-nowrap overflow-auto"
+    ></div>
+    <div
+      id="chart_legend"
+      class="max-w-[260px] mt-[10px] ml-[20px] p-[10px] shadow-custom rounded-[12px]"
+    >
+      <div class="flex items-center justify-between">
         <h2>Legend</h2>
-        <i class="fa-solid fa-plus icon-button" onclick="addData()"></i>
+        <i
+          class="fa-solid fa-plus m-[5px] mb-0 text-[#dedede] cursor-pointer transition-all hover:text-black"
+          onclick="addData()"
+        ></i>
       </div>
       <div class="content"></div>
     </div>
   </div>
 </template>
-<style>
-.main-content {
-  display: flex;
-  align-items: flex-start;
-}
-
-#chart_area {
-  max-width: 1000px;
-  white-space: nowrap;
-  overflow: auto;
-}
-
-.node-wrapper {
-  width: 100%;
-  height: 100%;
-  padding: 5px;
-}
-
-.node {
-  width: 100%;
-  height: 100%;
-  background-color: #ffffff;
-  border-radius: 50%;
-  box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%),
-    0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: grab;
-}
-
-.y-label-staic {
-  text-align: center;
-}
-
-.y-label-staic > *:first-child + * {
-  opacity: 0;
-  transition: all ease 0.3s;
-}
-
-.y-label-staic > *:first-child:hover + *,
-.y-label-staic > *:first-child + *:hover {
-  opacity: 1;
-}
-
-.circle-plus {
-  opacity: 0;
-}
-
-.circle-plus:hover {
-  opacity: 1;
-}
-
-.circle-plus.show {
-  opacity: 1;
-}
-
-.column-add-icon {
-  color: #55d762;
-  cursor: pointer;
-  transition: all ease 0.3s;
-}
-
-.column-add-icon:hover {
-  transform: translateY(2px);
-}
-
-.icon-button {
-  margin: 5px 5px 0 5px;
-  color: #dedede;
-  cursor: pointer;
-  transition: all ease 0.3s;
-}
-
-.icon-button:hover {
-  color: #000000;
-}
-
-#chart_legend {
-  max-width: 260px;
-  margin: 10px 0 0 20px;
-  padding: 3px;
-  box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%),
-    0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
-}
-
-.flex-row {
-  position: relative;
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  padding: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all ease 0.3s;
-  user-select: none;
-  height: 50px;
-}
-
-.flex-row:hover {
-  background-color: #f5f5f5;
-}
-
-.icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-basis: 40px;
-  min-width: 40px;
-  margin-right: 10px;
-  text-align: center;
-  position: relative;
-}
-
-.icon > .line {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  border-top: 2px solid;
-  width: 100%;
-  transform: translateY(-50%);
-}
-
-.icon > i {
-  position: relative;
-}
-
-.flex-row .action {
-  position: absolute;
-  color: #dedede;
-  left: calc(100% + 10px);
-  width: fit-content;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0;
-}
-
-.flex-row:hover > .action {
-  opacity: 1;
-}
-
-.flex-row > .action.dragging {
-  opacity: 1;
-}
-
-.legend-flex {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-</style>
+<style></style>
