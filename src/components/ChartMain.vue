@@ -218,7 +218,7 @@ export default {
                     5,
                     Math.max(1, Math.round((event.y - deltaY) / deltaHeight))
                   );
-                  d3.select(this).attr('y', deltaHeight * newPosition - 25);
+                  d3.select(this).attr('y', deltaHeight * newPosition - 30);
                   _graph.selectAll(`.graph-${dataIndex}`).raise();
                   d3.select(this.parentElement)
                     .select(`#line-${dataIndex}-${index}`)
